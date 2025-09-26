@@ -136,7 +136,7 @@ function App() {
                                     className="card bg-white grid grid-cols-1 md:grid-cols-[1fr_auto] items-center gap-2 shadow shadow-gray-700/50 p-6"
                                     key={ind}
                                 >
-                                    <div className="contain-cart-card-main">
+                                    <div className="contain-cart-card-main text-center">
                                         <h5 className="text-base font-mediumtitle">
                                             {val.name}
                                         </h5>
@@ -144,8 +144,8 @@ function App() {
                                             ₹ {val.price} x {val.count}
                                         </p>
                                     </div>
-                                    <div className="control-cart w-fit md:justify-self-end">
-                                        <span className="gift uppercase bg-green-300 text-green-950 py-1 px-3 rounded-xl text-base">
+                                    <div className="control-cart w-full grid justify-center">
+                                        <span className="gift uppercase w-fit bg-green-300 text-green-950 py-1 px-3 rounded-xl text-base">
                                             Free Gift
                                         </span>
                                     </div>
@@ -155,7 +155,7 @@ function App() {
                                     className="card bg-white grid grid-cols-1 md:grid-cols-[1fr_auto] items-center gap-4 shadow shadow-gray-700/50 p-6"
                                     key={ind}
                                 >
-                                    <div className="contain-cart-card-main">
+                                    <div className="contain-cart-card-main text-center">
                                         <h5 className="text-base font-mediumtitle">
                                             {val.name}
                                         </h5>
@@ -164,7 +164,7 @@ function App() {
                                             {val.price * val.count}
                                         </p>
                                     </div>
-                                    <div className="control-cart flex gap-3 items-center justify-start md:justify-self-end">
+                                    <div className="control-cart flex gap-3 items-center md:justify-start md:justify-self-end justify-center">
                                         <button
                                             type="button"
                                             className="decrement-btn py-1 px-3 bg-red-600 text-white"
