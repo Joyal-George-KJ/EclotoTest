@@ -36,28 +36,17 @@ function App() {
     };
 
     const decrementer = (ind) => {
-        const preventNegative = cart.findIndex((item) => item.count === 1);
-        if (preventNegative !== -1) {
+        if (cart[ind].count === 1) {
+            setCart((prev) => prev.filter((_, index) => index !== ind));
+        } else {
             setCart((prev) =>
-                prev.filter((item, index) => index === ind && item.count > 1)
+                prev.map((val, index) =>
+                    ind === index ? { ...val, count: val.count - 1 } : val
+                )
             );
-            setTotal((prev) => (prev -= cart[ind].price));
-            return;
         }
-        setCart((prev) =>
-            prev.map((val, index) =>
-                ind === index && val.count !== 1
-                    ? { ...val, count: val.count - 1 }
-                    : val
-            )
-        );
         setTotal((prev) => (prev -= cart[ind].price));
     };
-
-    useEffect(() => {
-        console.log(cart);
-        // setCart((prev) => prev.filter((item) => item.count > 0));
-    }, [cart]);
 
     useEffect(() => {
         if (
@@ -74,18 +63,26 @@ function App() {
 
     return (
         <>
-            <header>
-                <h1>Shopping Cart</h1>
+            <header className="w-full text-center py-4">
+                <h1 className="text-4xl font-extrabold">Shopping Cart</h1>
             </header>
-            <section>
+            <section className="mx-11">
                 <div className="product-holder">
-                    <h3>Products</h3>
-                    <div className="product-card-holder">
+                    <h3 className="text-xl text-gray-700 font-bold pt-6 py-4">
+                        Products
+                    </h3>
+                    <div className="product-card-holder grid grid-cols-4 gap-8">
                         {PRODUCTS.map((val) => (
-                            <div className="card" key={val.id}>
-                                <h5 className="title">{val.name}</h5>
+                            <div
+                                className="shadow shadow-gray-700 p-4 bg-white"
+                                key={val.id}
+                            >
+                                <h5 className="text-base font-bold title">
+                                    {val.name}
+                                </h5>
                                 <p className="price">₹ {val.price}</p>
                                 <button
+                                    className="mt-1 text-white bg-blue-400 w-full py-1.5 rounded-md"
                                     type="button"
                                     onClick={() =>
                                         addToCart({ ...val, count: 1 })
@@ -99,59 +96,79 @@ function App() {
                 </div>
 
                 <div className="cart-summary">
-                    <h3>Cart Summary</h3>
-                    <div className="total-cart-card-holder">
-                        <h5>Sub total</h5>
-                        <p className="total-price">₹ {total}</p>
-                    </div>
-                    {total < 1000 ? (
-                        <div className="gift-req">
-                            <p>Add ₹1000 more to get a FREE Wireless Mouse!</p>
-                            <div className="progress-container">
-                                <div
-                                    className="progress-bar"
-                                    style={{
-                                        width: (total / 1000) * 100 + "%",
-                                    }}
-                                ></div>
+                    <h3 className="text-xl text-gray-700 font-bold pt-6 py-4">
+                        Cart Summary
+                    </h3>
+                    <div className="bg-white p-4 shadow shadow-gray-700/25 mb-4">
+                        <div className="total-cart-card-holder flex justify-between border-b-2 border-gray-600 mb-3">
+                            <h5 className="text-base font-medium">Sub total</h5>
+                            <p className="total-price">₹ {total}</p>
+                        </div>
+                        {total < 1000 ? (
+                            <div className="gift-req p-4 bg-neutral-100">
+                                <p className="text-lg font-medium mb-3">
+                                    Add ₹1000 more to get a FREE Wireless Mouse!
+                                </p>
+                                <div className="progress-container w-full h-6 bg-blue-300 rounded-xl">
+                                    <div
+                                        className="progress-bar h-full max-w-full rounded-xl bg-blue-600"
+                                        style={{
+                                            width: (total / 1000) * 100 + "%",
+                                        }}
+                                    ></div>
+                                </div>
                             </div>
-                        </div>
-                    ) : (
-                        <div className="gift-req">
-                            <p>You got a FREE Wireless Mouse!</p>
-                        </div>
-                    )}
+                        ) : (
+                            <div className="gift-req p-4 bg-neutral-100 mb-5">
+                                <p className="text-lg font-medium mb-3">
+                                    You got a FREE Wireless Mouse!
+                                </p>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
-                <div className="cart">
+                <div className="cart grid gap-3 bg-white p-4 shadow shadow-gray-700/25 mb-8">
                     {cart.length > 0 ? (
                         cart.map((val, ind) =>
                             val?.id !== undefined && val.id === "gift" ? (
-                                <div className="card" key={ind}>
+                                <div
+                                    className="card bg-white flex justify-between shadow shadow-gray-700/50 p-6"
+                                    key={ind}
+                                >
                                     <div className="contain-cart-card-main">
-                                        <h5 className="title">{val.name}</h5>
+                                        <h5 className="text-base font-mediumtitle">
+                                            {val.name}
+                                        </h5>
                                         <p className="price">
                                             ₹ {val.price} x {val.count} ={" "}
                                             {val.price * val.count}
                                         </p>
                                     </div>
-                                    <div className="control-cart">
-                                        <span className="gift">Free Gift</span>
+                                    <div className="control-cart w-fit">
+                                        <span className="gift uppercase bg-green-300 text-green-950 py-1 px-3 rounded-xl text-base">
+                                            Free Gift
+                                        </span>
                                     </div>
                                 </div>
                             ) : (
-                                <div className="card" key={ind}>
+                                <div
+                                    className="card bg-white flex justify-between shadow shadow-gray-700/50 p-6"
+                                    key={ind}
+                                >
                                     <div className="contain-cart-card-main">
-                                        <h5 className="title">{val.name}</h5>
+                                        <h5 className="text-base font-mediumtitle">
+                                            {val.name}
+                                        </h5>
                                         <p className="price">
                                             ₹ {val.price} x {val.count} ={" "}
                                             {val.price * val.count}
                                         </p>
                                     </div>
-                                    <div className="control-cart">
+                                    <div className="control-cart flex gap-3 items-center">
                                         <button
                                             type="button"
-                                            className="decrement-btn"
+                                            className="decrement-btn py-1 px-3 bg-red-600 text-white"
                                             onClick={() => decrementer(ind)}
                                         >
                                             -
@@ -159,6 +176,7 @@ function App() {
                                         <input
                                             type="number"
                                             name="count"
+                                            className="w-4 text-neutral-900"
                                             value={val.count}
                                             onChange={(e) =>
                                                 setTotal(e.target.value)
@@ -167,7 +185,7 @@ function App() {
                                         <button
                                             onClick={() => incrementer(ind)}
                                             type="button"
-                                            className="increment-btn"
+                                            className="increment-btn py-1 px-3 bg-green-600 text-white"
                                         >
                                             +
                                         </button>
@@ -176,8 +194,8 @@ function App() {
                             )
                         )
                     ) : (
-                        <div className="empty-cart">
-                            <p className="empty-cart-main-text">
+                        <div className="empty-cart w-full text-center bg-neutral-100 py-6 text-neutral-600">
+                            <p className="empty-cart-main-text text-2xl">
                                 Your cart is empty
                             </p>
                             <p className="empty-cart-sub-text">
