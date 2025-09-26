@@ -66,12 +66,12 @@ function App() {
             <header className="w-full text-center py-4">
                 <h1 className="text-4xl font-extrabold">Shopping Cart</h1>
             </header>
-            <section className="mx-11">
+            <section className="mx-4 md:mx-8 lg:mx-11">
                 <div className="product-holder">
-                    <h3 className="text-xl text-gray-700 font-bold pt-6 py-4">
+                    <h3 className="text-xl text-gray-700 font-bold pt-0 md:pt-8 py-2">
                         Products
                     </h3>
-                    <div className="product-card-holder grid grid-cols-4 gap-8">
+                    <div className="product-card-holder grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
                         {PRODUCTS.map((val) => (
                             <div
                                 className="shadow shadow-gray-700 p-4 bg-white"
@@ -133,7 +133,7 @@ function App() {
                         cart.map((val, ind) =>
                             val?.id !== undefined && val.id === "gift" ? (
                                 <div
-                                    className="card bg-white flex justify-between shadow shadow-gray-700/50 p-6"
+                                    className="card bg-white grid grid-cols-1 md:grid-cols-[1fr_auto] items-center gap-2 shadow shadow-gray-700/50 p-6"
                                     key={ind}
                                 >
                                     <div className="contain-cart-card-main">
@@ -141,11 +141,10 @@ function App() {
                                             {val.name}
                                         </h5>
                                         <p className="price">
-                                            ₹ {val.price} x {val.count} ={" "}
-                                            {val.price * val.count}
+                                            ₹ {val.price} x {val.count}
                                         </p>
                                     </div>
-                                    <div className="control-cart w-fit">
+                                    <div className="control-cart w-fit md:justify-self-end">
                                         <span className="gift uppercase bg-green-300 text-green-950 py-1 px-3 rounded-xl text-base">
                                             Free Gift
                                         </span>
@@ -153,7 +152,7 @@ function App() {
                                 </div>
                             ) : (
                                 <div
-                                    className="card bg-white flex justify-between shadow shadow-gray-700/50 p-6"
+                                    className="card bg-white grid grid-cols-1 md:grid-cols-[1fr_auto] items-center gap-4 shadow shadow-gray-700/50 p-6"
                                     key={ind}
                                 >
                                     <div className="contain-cart-card-main">
@@ -165,7 +164,7 @@ function App() {
                                             {val.price * val.count}
                                         </p>
                                     </div>
-                                    <div className="control-cart flex gap-3 items-center">
+                                    <div className="control-cart flex gap-3 items-center justify-start md:justify-self-end">
                                         <button
                                             type="button"
                                             className="decrement-btn py-1 px-3 bg-red-600 text-white"
@@ -176,11 +175,9 @@ function App() {
                                         <input
                                             type="number"
                                             name="count"
-                                            className="w-4 text-neutral-900"
+                                            className="w-8 text-center text-neutral-900"
                                             value={val.count}
-                                            onChange={(e) =>
-                                                setTotal(e.target.value)
-                                            }
+                                            readOnly
                                         />
                                         <button
                                             onClick={() => incrementer(ind)}
